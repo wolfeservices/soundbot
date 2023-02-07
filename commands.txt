@@ -1,5 +1,0 @@
-#commands go here, one per line in the format: command:response:sound.mp3:volume(0-100) Response and Sound.mp3 may be set to None (case sensitive), but one or both must be set, volume only needed for sound
-slap:None:slap.mp3:100
-emotionalDamage:Emotional Damage!:emotional-damage-meme.mp3:25
-bruh:bruh:bruh.mp3:100
-
