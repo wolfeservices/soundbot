@@ -54,9 +54,8 @@ def check_for_update():
         print('There is a new release, updating...')
         update()
     else:
-        print('No new release, exiting...')
-        #exit with a status code of 1
-        exit(1)
+        print('No new release')
+        return False
 
 #download the new release
 def update():
@@ -75,9 +74,11 @@ def update():
     current_version = open('version.txt', 'w')
     current_version.write(get_latest_release())
     current_version.close()
-    print('Update complete, exiting...')
-    #exit with a status code of 0
-    exit(0)
+    print('Update complete')
+    return True
 
-#run the script
-check_for_update()
+
+#
+if __name__ == '__main__':
+    check_for_update()
+

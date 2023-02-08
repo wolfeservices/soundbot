@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>WebUI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='wolfebot.ico') }} " type="image/x-icon">
+</head>
+<body>
+    <div class="titlebar"><h1>Webui of Wolfe-Soundbot</h1></div>
+    <h3>Bot Status: {{ bot_state }}</h3>
+    <form action="/redir">
+        <input type="submit" value="Update Status">
+    </form>
+    <form  action="/command" method="post">
+        <input type="submit" name="S1" value="{{ bot_toggle_text }}">
+        <input type="submit" name="U1" value="Update">
+    </form>
+</body>
+</html>
