@@ -3,9 +3,20 @@ from flask import Flask, request, render_template, redirect, url_for
 from updater import check_for_update, update, get_latest_release
 
 import subprocess
+import os
 
 bot_toggle_text = "start"
 bot_state = "stopped"
+
+try:    
+    last_added = open("last_added.txt", "r").read()
+except:
+    #if file does not exist create it and write "none"
+    open("last_added.txt", "w").write("none")
+    last_added = open ("last_added.txt", "r").read()
+
+
+
 
 
 def start_bot():
@@ -50,6 +61,8 @@ def command():
         else:
             print("error")
             return redirect(url_for('error'))
+    elif post == "AC":
+        return redirect(url_for('ac'))
     else:
         print("error")
         return redirect(url_for('error'))
@@ -67,11 +80,43 @@ def error():
 def alert(message):
     return render_template('alert.html', message=message)
 
-@app.route('/shutdown')
-def shutdown():
-    bot(False)
-    #close the server
-    shutdown_server()
+@app.route('/ac')
+def ac():
+    return render_template('ac.html')
+
+@app.route('/ac/add', methods=['POST'])
+def acadd():
+    post = request.form
+    print(post)
+    #trim "ImmutableMultiDict([*])"
+    post = str(post)[20:-2]
+    print(post)
+    #break  into clusters cluster ex: ('name', 'value')
+    post = post.split("), (")
+    for i in range(len(post)):
+        #remove '
+        post[i] = post[i].replace("'", "")
+        #remove whitespace
+        post[i] = post[i].replace(" ", "")
+        #remove ( and )
+        post[i] = post[i].replace("(", "")
+        post[i] = post[i].replace(")", "")
+        #split into name and value
+        post[i] = post[i].split(",")
+    print(post)
+    #break post into known structure
+    command = post[0][1]
+    response = post[1][1]
+    responsefile = post[2][1]
+    #check if responsefile is empty
+    if responsefile == "":
+        responsefile = "0"
+    #pass to commandwrapper
+    commandwrapper(command, response, responsefile)
+    
+
+    return redirect(url_for('ac'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

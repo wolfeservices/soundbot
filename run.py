@@ -19,6 +19,8 @@ except:
     print('pyaudio not found, installing it now')
     os.system('pip install pyaudio')
 
+import webbrowser
+
 #check if config.py exists, else create it then exit
 if not os.path.exists('config.py'):
     print('config.txt not found, creating it now')
@@ -27,8 +29,10 @@ if not os.path.exists('config.py'):
     f.close()
     exit()
 
+
 print(f'bot has started, use the web interface at http://localhost:5000 to control it')
-#start flask server and bot
+webbrowser.open('http://localhost:5000')
+#start flask server
 os.system('python web.py')
 
 
