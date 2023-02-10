@@ -41,6 +41,7 @@ input[type="text"] {
     font-family: 'Courier New', Courier, monospace;
     font-size: 18px;
     padding: 2px 5px;
+    width: 400px;
 }
 
 input[type="text"]:focus {
@@ -52,11 +53,52 @@ input[type="text"]:focus {
     padding: 2px 5px;
 }
 
-input[type="file"] {
-    background-color: #535353;
-    border: 1px solid #ffffff;
-    color: #ffffff;
+.slider {
+    -webkit-appearance: none;
+    width: 370px;
+    padding: 2px 2px;
+    background: #535353;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: cornflowerblue;
+    cursor: pointer;
+}
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: cornflowerblue;
+    cursor: pointer;
+}
+.slidercontainer {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+span.sliderlabel {
+    display: inline-block;
+    width: 30px;
+    text-align: right;
+    position: relative;
+    top: -7px;
+    margin-right: 5px;
+    margin: 5px;
+    text-align: center;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 12px;
-    padding: 5px 5px;
+    font-size: 20px;
+    color: cyan;
+    height : 22px;
+    
 }

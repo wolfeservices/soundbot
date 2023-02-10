@@ -14,7 +14,12 @@
         <label for="response">Response: </label>
         <input type="text" name="response" id="response"><br>
         <label for="file">Filename:  </label>
-        <input type="text" name="file" id="file"><br><br>
+        <input type="text" name="file" id="file"><br>
+        <label for="volume">Volume:  </label>
+        <div class="slidercontainer">
+        <input class="slider" type="range" name="volume" id="volume" min="0" max="100" value="50"><span class="sliderlabel" id="vol"></span>
+        </div>
+        <br>
         <input type="submit" value="Add">
     </form>
     <br>
@@ -27,4 +32,15 @@
     <br>
     <form action="/redir">
         <input type="submit" value="Back">
+    </form>
+
+    <script>
+        var slider = document.getElementById("volume");
+        var output = document.getElementById("vol");
+        output.innerHTML = slider.value;
+
+        slider.oninput = function() {
+            output.innerHTML = this.value;
+        }
+    </script>
 </html>

@@ -8,6 +8,8 @@ from twitchio.ext import commands, sounds
 from config import token, nick, prefix, channel
 import os
 
+version = open('version.txt', 'r').read()
+
 class Bot(commands.Bot):
 	def __init__(self):
 		super().__init__(token=token, nick=nick, prefix=prefix, initial_channels=[channel])

@@ -15,21 +15,6 @@ except:
     open("last_added.txt", "w").write("none")
     last_added = open ("last_added.txt", "r").read()
 
-def commandwrapper(bool, command, response, responsefile, volume):
-    #bool is True if command is to be added to commandlist, False if command is to be removed
-    if bool == False:
-        if os.system("python commandwrapper.py -R -c " + command) == 0:
-            return url_for ('alert', message="Command removed", destinationID="2")
-        else:
-            return url_for ('alert', message="Command not found", destinationID="2")
-    elif bool == True:
-        if os.system("python commandwrapper.py -A -c " + command + " -r " + response + " -f " + responsefile + "-v "+ volume) == 0:
-            return url_for ('alert', message="Command added", destinationID="2")
-        else:
-            return url_for ('alert', message="Command already exists", destinationID="2")
-    else:
-        return url_for ('alert', message="Error", destinationID="2")
-
 def start_bot():
     global bot_state
     bot_state = "running"
@@ -83,7 +68,7 @@ def command():
 def redir():
     return redirect(url_for('index'))
 
-@app.route('/error/<int:destinationID>')
+@app.route('/error/<destinationID>')
 def error(destinationID):
     if destinationID == "1":
         destination = url_for('index')
@@ -91,15 +76,17 @@ def error(destinationID):
         destination = url_for('ac')
     else:
         destination = url_for('errorFinal')
+    
+    return render_template('error.html', destination=destination)
 
-@app.route('/alert/<message>/<int:destinationID>')
+@app.route('/alert/<message>/<destinationID>')
 def alert(message, destinationID):
     if destinationID == "1":
         destination = url_for('index')
     elif destinationID == "2":
         destination = url_for('ac')
     else:
-        destination = url_for('error')
+        destination = url_for('error', destinationID=1)
 
     return render_template('alert.html', message=message, destination=destination)
     
@@ -133,11 +120,35 @@ def acadd():
     response = post[1][1]
     responsefile = post[2][1]
     volume = post[3][1]
-    #check if responsefile is empty
+    print(command + " " + response + " " + responsefile + " " + volume)
+    #check if response and responsefile are both set
+    #set empty to "none"
+    if response == "":
+        response = "none"
     if responsefile == "":
-        responsefile = "0"
-    #pass to commandwrapper
-    commandwrapper(True, command, response, responsefile, volume)
+        responsefile = "none"
+    #dertmine which way to pass to commandwrapper
+    if response == "none":
+        if responsefile != "none":
+            if os.system("python commandwrapper.py -A -c " + command + " -f " + responsefile + " -v " + volume) == 0:
+                return redirect(url_for('alert', message="Command added", destinationID=2))
+            else:
+                return redirect(url_for('alert', message="Error adding command", destinationID=2)) 
+        else:
+            return redirect(url_for('alert', message="Response must be set", destinationID=2))
+    elif responsefile == "none":
+        if os.system("python commandwrapper.py -A -c " + command + " -r " + response) == 0:
+            return redirect(url_for('alert', message="Command added", destinationID=2))
+        else:
+            return redirect(url_for('alert', message="Error adding command", destinationID=2))
+    elif response != "none" and responsefile != "none":
+        if os.system("python commandwrapper.py -A -c " + command + " -r " + response + " -f " + responsefile + " -v " + volume) == 0:
+            return redirect(url_for('alert', message="Command added", destinationID=2))
+        else:
+            return redirect(url_for('alert', message="Error adding command", destinationID=2))
+    else:
+        return redirect(url_for('alert', message="Error adding command", destinationID=2))
+
 
 @app.route('/ac/delete', methods=['POST'])
 def acdelete():
@@ -161,9 +172,16 @@ def acdelete():
     print(post)
     #break post into known structure
     command = post[0][1]
+    print(command)
     #pass to commandwrapper
-    commandwrapper(False, command, "", "", "")
+    if os.system("python commandwrapper.py -R -c " + command) == 0:
+        return redirect(url_for('alert', message="Command deleted", destinationID=2))
+    else:
+        return redirect(url_for('alert', message="Error deleting command", destinationID=2))
     
+@app.route('/errorFinal')
+def errorFinal():
+    return render_template('errorFinal.html')
     
 
 if __name__ == '__main__':
