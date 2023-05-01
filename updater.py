@@ -5,13 +5,8 @@
 import os
 
 #test requirements
-#pyunpack
-try:
-    from pyunpack import Archive
-except ImportError:
-    print('pyunpack not installed, installing...')
-    os.system('pip install pyunpack')
-    from pyunpack import Archive
+#zipfile is used to extract the archive
+import zipfile
 #requests
 try:
     import requests
@@ -65,11 +60,11 @@ def update():
     download_url = json_data['assets'][0]['browser_download_url'] #the download url is in the assets array, so we get the first item in the array
     print('Downloading new release...')
     r = requests.get(download_url, allow_redirects=True) #download the file from the url, allow_redirects is set to true so we can download the file from the github api
-    open('soundbot.7z', 'wb').write(r.content) #write the file to disk as soundbot.7z
+    open('soundbot.zip', 'wb').write(r.content) #write the file to disk as soundbot.zip
     print('Download complete, extracting...')
-    Archive('soundbot.7z').extractall('.')
+    zipfile.ZipFile('soundbot.zip').extractall() #extract the archive
     print('Extraction complete, deleting archive...')
-    os.remove('soundbot.7z')
+    os.remove('soundbot.zip')
     print('Archive deleted, updating version.txt...')
     current_version = open('version.txt', 'w')
     current_version.write(get_latest_release())
