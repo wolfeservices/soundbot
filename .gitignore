@@ -1,8 +1,10 @@
 #none of the following files should be uploaded to github
-./version.txt
-./commands.txt
-./config.py
-./sounds/*
+commands.txt
+config.py
+sounds/
+.key
+.storage
+auth_users.txt
 
 # Editors
 .vscode/
@@ -129,3 +131,4 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+version.txt
