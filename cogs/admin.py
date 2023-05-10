@@ -1,5 +1,5 @@
 from twitchio.ext import commands, sounds
-
+import os
 
 def refresh_auth_users():
     with open('auth_users.txt', 'r') as f:
@@ -9,11 +9,10 @@ def refresh_auth_users():
         f.close()
     return auth_users
 
-class AGen(commands.Cog):
+class lock(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.player = sounds.AudioPlayer(callback=self.playback_finished)
 
     def perm_check(self, lev, ctx):
         auth_users = refresh_auth_users()
@@ -33,11 +32,24 @@ class AGen(commands.Cog):
             else: return False
         return False
 
-    async def playback_finished(self):
-        print('Playback finished')
+    @commands.command()
+    async def lockdown(self, ctx: commands.Context):
+        if self.perm_check(4, ctx):
+            with open('.lockdown', 'w') as f:
+                f.write('')
+                f.close()
+            await ctx.send('Lockdown enabled, only broadcaster and auth users can use commands.')
+        else:
+            await ctx.send('You do not have permission to use this command.')
+    
+    @commands.command()
+    async def unlock(self, ctx: commands.Context):
+        if self.perm_check(4, ctx):
+            os.remove('.lockdown')
+            await ctx.send('Lockdown disabled, all users can use commands.')
+        else:
+            await ctx.send('You do not have permission to use this command.')
 
-
-##COMMANDS##
 
 def prepare(bot):
-    bot.add_cog(AGen(bot))
+    bot.add_cog(lock(bot))

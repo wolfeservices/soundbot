@@ -1,6 +1,7 @@
 from twitchio.ext import commands
-
+import os
 import datetime
+
 Time = datetime.datetime.now(tz=datetime.timezone.utc)
 TimeMST = Time - datetime.timedelta(hours=7)
 TimeMST = TimeMST.strftime("%I:%M %p")
