@@ -81,22 +81,22 @@ class Bot(commands.Bot):
             await self.handle_commands(message)
 
 
+def main():
+    #write session file
+    with open('.session', 'w') as f:
+        f.write('')
+    #load listfiles
+    #auth_users
+    with open('auth_users.txt', 'r') as f:
+        auth_users = []
+        for line in f.readlines():
+            auth_users.append(line.strip())
+        f.close()
+    bot = Bot()
+    bot.run()
 
-#write session file
-with open('.session', 'w') as f:
-    f.write('')
-#load listfiles
-#bots
-with open('bots.txt', 'r') as f:
-    bots = []
-    for line in f.readlines():
-        bots.append(line.strip())
-    f.close()
-#auth_users
-with open('auth_users.txt', 'r') as f:
-    auth_users = []
-    for line in f.readlines():
-        auth_users.append(line.strip())
-    f.close()
-bot = Bot()
-bot.run()
+if __name__ == "__main__":
+    main()
+
+else:
+    main()
