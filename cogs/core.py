@@ -43,7 +43,7 @@ class wolf(commands.Cog):
     @commands.command()
     async def WBCommands(self, ctx: commands.Context):
         command_list = []
-        with open('commandlist.txt', 'r') as f:
+        with open('commands.txt', 'r') as f:
             for line in f:
                 command = line.split(':')[0]
                 command = "!"+command
