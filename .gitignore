@@ -136,4 +136,6 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+updater.py
+
 version.txt
