@@ -10,8 +10,18 @@ clientid = "83dnr5c7wspcobvhegzd0029gr9apq"
 callback = "http://localhost:8080/callback?"
 scope = "chat%3Aread+chat%3Aedit"
 
+if os.path.exists('.key'):
+    #check if .key is hidden, if so, unhide it
+    if os.system('attrib .key') == 0:
+        os.system('attrib -h .key')
+
+if os.path.exists('.storage'):
+    #check if .storage is hidden, if so, unhide it
+    if os.system('attrib .storage') == 0:
+        os.system('attrib -h .storage')
+
 try:
-    with open('.key', 'rb') as key:
+    with open('.key', 'r') as key:
         enc_key = key.read()
 except FileNotFoundError:
     enc_key = Fernet.generate_key()
@@ -20,7 +30,7 @@ except FileNotFoundError:
     #make .key hidden
     os.system('attrib +h .key')
 
-f = Fernet(enc_key)
+fern = Fernet(enc_key)
 
 
 def oauth():
@@ -64,11 +74,11 @@ def auth():
     if state == open('.state', 'r').read():
         print('state is valid')
         with open('.storage', 'wb') as storage:
-            storage.write(f.encrypt(access_token.encode('utf-8')))
+            storage.write(fern.encrypt(access_token.encode('utf-8')))
             storage.close()
         with open('.storage', 'r') as storage:
             encrypted = storage.read()
-            decrypted = f.decrypt(encrypted.encode('utf-8')).decode('utf-8')
+            decrypted = fern.decrypt(encrypted.encode('utf-8')).decode('utf-8')
             if decrypted == access_token:
                 print('token is valid')
             else:
@@ -82,7 +92,7 @@ def auth():
         print('state is invalid')
         with open('.logfail', 'w') as f:
             f.write('1')
-        return "State is invalid, please try again."
+        return "State is invalid, please try again in a few minutes."
 
 
 

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WolfeBot Command Lists</title>
+    <link rel="favicon" href="{{ channel_logo }}">
+
+    <style>
+        body {
+            background-image: url("{{ channel_logo }}");
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+        }
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            margin-top: 0;
+            padding: 0.5em;
+            text-shadow: 0 0 10px #000;
+            background-color: rgba(45, 45, 45, 0.5);
+            border-radius: 10px;
+            background-origin: padding-box;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            background-color: rgba(45, 45, 45, 0.5);
+            border-radius: 10px;
+        }
+        li {
+            padding: 0.5em;
+            font-size: 1.5em;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Commands for {{ channel }}</h1>
+    <ul>
+        {{ command_list|safe }}
+    </ul>
+</body>
+</html>

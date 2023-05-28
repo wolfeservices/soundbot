@@ -50,6 +50,5 @@ class lock(commands.Cog):
         else:
             await ctx.send('You do not have permission to use this command.')
 
-
 def prepare(bot):
     bot.add_cog(lock(bot))

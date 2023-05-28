@@ -5,6 +5,11 @@ sounds/
 .key
 .storage
 auth_users.txt
+/BACKEND/.*
+.session
+.loaded_cogs
+cogs/commands.py
+cogs/meme.py
 
 # Editors
 .vscode/

@@ -1,4 +1,5 @@
 from twitchio.ext import commands, sounds
+import asyncio
 
 
 def refresh_auth_users():
